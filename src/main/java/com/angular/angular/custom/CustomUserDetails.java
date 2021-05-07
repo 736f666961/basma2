@@ -1,5 +1,6 @@
 package com.angular.angular.custom;
 
+import com.angular.angular.entity.RoleEntity;
 import com.angular.angular.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
 
     private UserEntity userEntity;
+    private RoleEntity roleEntity;
 
     public CustomUserDetails(UserEntity userEntity1) {
         this.userEntity = userEntity1;
@@ -21,9 +23,11 @@ public class CustomUserDetails implements UserDetails {
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        userEntity.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-        });
+//        userEntity.getRoles().forEach(role -> {
+//            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+//        });
+
+        authorities.add(new SimpleGrantedAuthority(userEntity.getRole().getRoleName()));
 
         return authorities;
     }
